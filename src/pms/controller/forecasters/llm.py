@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import asyncio
-import fcntl
 import json
 from contextlib import contextmanager
 from hashlib import sha256
@@ -17,9 +16,18 @@ from datetime import UTC, date, datetime
 from decimal import Decimal, InvalidOperation
 from importlib import import_module
 from pathlib import Path
-from typing import Iterator, Mapping, Protocol, Self, cast
+from typing import Any, Iterator, Mapping, Protocol, Self, cast
 from typing import Literal
 from weakref import ReferenceType, ref
+
+try:
+    import fcntl as _fcntl_module
+except ImportError:  # pragma: no cover - Windows has no fcntl
+    _fcntl_module = None  # type: ignore[assignment]
+
+# fcntl stubs are POSIX-only in typeshed; treat the module as Any so the
+# flock call sites below type-check on every platform.
+_fcntl: Any = _fcntl_module
 
 from pms.config import LLMSettings
 from pms.core.models import MarketSignal
@@ -1273,11 +1281,13 @@ def _budget_ledger_lock(tracker: _BudgetTracker) -> Iterator[None]:
     try:
         lock_path.parent.mkdir(parents=True, exist_ok=True)
         with lock_path.open("a+", encoding="utf-8") as lock_file:
-            fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
+            if _fcntl is not None:
+                _fcntl.flock(lock_file.fileno(), _fcntl.LOCK_EX)
             try:
                 yield
             finally:
-                fcntl.flock(lock_file.fileno(), fcntl.LOCK_UN)
+                if _fcntl is not None:
+                    _fcntl.flock(lock_file.fileno(), _fcntl.LOCK_UN)
     except OSError as exc:
         raise LLMProviderUnavailableError(
             "LLM spend ledger could not be locked; refusing provider calls"
