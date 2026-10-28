@@ -162,3 +162,48 @@ def test_old_scores_without_ic_fields_deserialize() -> None:
     assert score.ic == 0.0
     assert score.rank_ic == 0.0
     assert score.icir == 0.0
+
+
+def test_feedback_payload_carries_ic_fields() -> None:
+    from pms.optimizer import (
+        ChampionPool,
+        FeedbackPayload,
+        OptimizationLoop,
+        SlowLoopValidator,
+        Tracer,
+    )
+
+    with Tracer.in_memory() as tracer, ChampionPool.in_memory() as pool:
+        loop = OptimizationLoop(
+            fast_evaluator=FastLoopEvaluator(),
+            slow_validator=SlowLoopValidator(),
+            champion_pool=pool,
+            tracer=tracer,
+            top_k=1,
+        )
+        candidate = CandidateSpec(
+            candidate_id="ic-fb",
+            steps=(CompositionStepSpec(factor_id="oracle", role="weighted", weight=1.0),),
+        )
+        results = loop.run_once(
+            [candidate], _priced_panel(), _Outcomes({"p1": 1.0, "p2": 1.0})
+        )
+    feedback: FeedbackPayload = results[0].feedback
+    assert feedback.ic > 0.99
+    assert feedback.rank_ic > 0.99
+    assert "ic" in feedback.to_dict()
+    # legacy payloads without IC fields keep defaulting to 0.0
+    legacy = FeedbackPayload(
+        candidate_id="old",
+        promoted=False,
+        fast_composite=0.1,
+        fast_brier=0.2,
+        direction_accuracy=0.6,
+        oos_pnl=None,
+        oos_brier=None,
+        champion_version=None,
+        exercised_factors=(),
+        suggestion="legacy",
+    )
+    assert legacy.ic == 0.0
+    assert legacy.icir == 0.0

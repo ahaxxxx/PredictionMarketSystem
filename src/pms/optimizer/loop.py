@@ -205,4 +205,7 @@ class OptimizationLoop:
             champion_version=promotion.champion_version if promotion else None,
             exercised_factors=exercised,
             suggestion=suggestion,
+            ic=fast.ic,
+            rank_ic=fast.rank_ic,
+            icir=fast.icir,
         )

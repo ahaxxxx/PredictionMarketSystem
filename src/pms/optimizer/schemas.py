@@ -319,6 +319,10 @@ class FeedbackPayload:
     # Per-step contribution hints: which weighted factors got exercised.
     exercised_factors: tuple[str, ...]
     suggestion: str
+    # AlphaBench-style diagnostics (additive; default 0 for legacy payloads).
+    ic: float = 0.0
+    rank_ic: float = 0.0
+    icir: float = 0.0
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -332,6 +336,9 @@ class FeedbackPayload:
             "champion_version": self.champion_version,
             "exercised_factors": list(self.exercised_factors),
             "suggestion": self.suggestion,
+            "ic": self.ic,
+            "rank_ic": self.rank_ic,
+            "icir": self.icir,
         }
 
     def to_json(self) -> str:
