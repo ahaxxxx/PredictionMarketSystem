@@ -2,6 +2,7 @@
 
 from pms.optimizer.champion_pool import ChampionPool, ChampionRecord
 from pms.optimizer.fast_loop import FastLoopEvaluator
+from pms.optimizer.ic_metrics import edge_return_pairs, ic_series, pearson, spearman
 from pms.optimizer.loop import CandidateResult, OptimizationLoop
 from pms.optimizer.replay import OutcomeStore, ReplayPoint, replay_composition
 from pms.optimizer.schemas import (
@@ -25,6 +26,10 @@ __all__ = (
     "FastLoopEvaluator",
     "FastScore",
     "FeedbackPayload",
+    "edge_return_pairs",
+    "ic_series",
+    "pearson",
+    "spearman",
     "OptimizationLoop",
     "OutcomeStore",
     "PromotionDecision",

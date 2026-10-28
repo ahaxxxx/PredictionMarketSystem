@@ -161,7 +161,15 @@ class CandidateSpec:
 
 @dataclass(frozen=True, slots=True)
 class FastScore:
-    """M2 result: dual-objective replay score over the factor panel."""
+    """M2 result: dual-objective replay score over the factor panel.
+
+    The direction/calibration objectives are the original design.  The
+    ``ic`` / ``rank_ic`` / ``icir`` fields follow the standard formulaic
+    alpha-factor mining metrics (AlphaBench; Grinold & Kahn 2000), where
+    IC measures the correlation between the predicted edge and the realized
+    return of trading on it.  They are additive — nothing in the original
+    scoring changed.
+    """
 
     direction_accuracy: float
     brier: float
@@ -170,6 +178,9 @@ class FastScore:
     n_points: int
     n_markets: int
     duration_s: float
+    ic: float = 0.0
+    rank_ic: float = 0.0
+    icir: float = 0.0
 
     def composite(self) -> float:
         """Higher is better: accuracy minus calibration penalty."""
@@ -188,6 +199,9 @@ class FastScore:
             n_points=int(data["n_points"]),
             n_markets=int(data["n_markets"]),
             duration_s=float(data["duration_s"]),
+            ic=float(data.get("ic", 0.0)),
+            rank_ic=float(data.get("rank_ic", 0.0)),
+            icir=float(data.get("icir", 0.0)),
         )
 
 

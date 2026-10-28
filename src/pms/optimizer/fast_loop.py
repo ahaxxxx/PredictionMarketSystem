@@ -2,8 +2,11 @@
 
 Scores a candidate composition by replaying it over the historical factor
 panel with no trading simulation: two objectives, directional accuracy and
-calibration (Brier / log loss).  Designed to evaluate one candidate in
-seconds, so hundreds of proposals per loop iteration are affordable.
+calibration (Brier / log loss).  The IC / RankIC / ICIR information
+coefficients from formulaic alpha-factor mining (AlphaBench) are reported
+alongside as additive diagnostics — the original objectives and gates are
+unchanged.  Designed to evaluate one candidate in seconds, so hundreds of
+proposals per loop iteration are affordable.
 """
 
 from __future__ import annotations
@@ -13,6 +16,7 @@ from dataclasses import dataclass
 
 from pms.research.cache import FactorPanel
 
+from pms.optimizer.ic_metrics import ic_series
 from pms.optimizer.replay import OutcomeStore, replay_composition
 from pms.optimizer.schemas import CandidateSpec, FastScore
 
@@ -69,6 +73,7 @@ class FastLoopEvaluator:
         brier = sum(b for _, b, _ in scored) / n_scored
         log_loss = sum(ll for _, _, ll in scored) / n_scored
         coverage = n_scored / max(1, n_resolvable_points)
+        ic = ic_series(points)
         return FastScore(
             direction_accuracy=correct / n_scored,
             brier=brier,
@@ -77,6 +82,9 @@ class FastLoopEvaluator:
             n_points=n_scored,
             n_markets=len(panel),
             duration_s=time.monotonic() - started,
+            ic=float(ic["ic"]),
+            rank_ic=float(ic["rank_ic"]),
+            icir=float(ic["icir"]),
         )
 
     def passes_gate(self, score: FastScore) -> bool:
