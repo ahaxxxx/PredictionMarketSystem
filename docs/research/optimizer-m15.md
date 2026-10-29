@@ -2,6 +2,8 @@
 
 团队汇报与讨论清单：[项目进展、最新 IC 分支与待确认事项](optimizer-team-discussion.md)。可在 [PR #1](https://github.com/ahaxxxx/PredictionMarketSystem/pull/1) 留言讨论。
 
+新增历史数据入口：[直接下载公开样例并跑一轮](optimizer-historical-input.md)。原合成演示保持兼容。
+
 ## 一条命令运行
 
 从仓库根目录执行，需要 Python 3.13 与 uv：

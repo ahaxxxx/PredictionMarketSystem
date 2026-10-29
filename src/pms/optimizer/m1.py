@@ -25,7 +25,7 @@ class ProposalSpace:
     edge_thresholds: tuple[float, ...] = (0.02, 0.05, 0.10)
 
     def __post_init__(self) -> None:
-        allowed = {"orderbook_imbalance", "metaculus_prior"}
+        allowed = {"orderbook_imbalance", "metaculus_prior", "favorite_longshot_bias"}
         if not self.factor_ids or len(set(self.factor_ids)) != len(self.factor_ids):
             raise ValueError("distinct factor dimensions required")
         if not set(self.factor_ids) <= allowed:
