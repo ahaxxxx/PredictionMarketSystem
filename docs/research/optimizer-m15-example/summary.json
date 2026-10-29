@@ -1,0 +1,18 @@
+{
+  "candidate_evaluations": 24,
+  "champion_versions": 1,
+  "data_sha256": "01422bad3304c3a3ad5c39358b8f0b97f9177cf57669fd8cfed821ee5f412ae1",
+  "final_holdout_used": false,
+  "llm_calls": 0,
+  "proposer_levels": {
+    "L1": 12,
+    "L2": 12,
+    "L3": 0
+  },
+  "registered": false,
+  "rounds": 3,
+  "scope": "synthetic functional demo; development slices, not final OOS or real PnL",
+  "space_size": 75,
+  "status": "completed",
+  "stop_reason": "round_budget"
+}
