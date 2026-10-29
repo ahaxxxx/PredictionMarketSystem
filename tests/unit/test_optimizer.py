@@ -138,7 +138,9 @@ def test_fast_loop_dual_objective_score() -> None:
     # forecast 0.8 vs actual 1.0 / 0.0 -> brier = 0.04 both ways
     assert abs(score.brier - 0.04) < 1e-9
     assert score.n_points == 16
-    assert score.coverage > 0.0
+    # every resolvable (market, timestamp) pair was scored -> full coverage,
+    # regardless of how many factor rows each timestamp carries
+    assert score.coverage == 1.0
     assert score.composite() > 0.0
     assert FastLoopEvaluator().passes_gate(score)
 
@@ -270,13 +272,13 @@ def _run_loop_assertions(tracer: Tracer, pool: ChampionPool) -> None:
     assert strong_result.promotion.promoted
     assert strong_result.feedback.promoted
     assert strong_result.feedback.champion_version == 1
-    # weak candidate gets slow-scored (top_k=2) but its zero-edge trading
-    # cannot beat the reigning champion.
+    # weak candidate (forecast == price, brier ~0.28) is now stopped at the
+    # fast gate before the slow loop, with an explicit reason recorded.
     weak_result = by_id["c-weak"]
-    assert weak_result.slow is not None
+    assert weak_result.slow is None
     assert weak_result.promotion is not None
     assert not weak_result.promotion.promoted
-    assert weak_result.feedback.suggestion == "rejected_by_slow_loop_or_champion"
+    assert "fast gate" in (weak_result.promotion.reason or "")
     # every stage left a trace under one iteration root
     roots = tracer.roots(name="optimizer_iteration")
     assert len(roots) == 1

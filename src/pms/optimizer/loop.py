@@ -79,10 +79,30 @@ class OptimizationLoop:
             inputs={"n_candidates": len(candidates)},
         ) as iteration:
             fast_scores = self._score_all(candidates, panel, outcomes)
-            admitted = self._select_top_k(candidates, fast_scores)
+            gated = {
+                candidate.candidate_id
+                for candidate in candidates
+                if self._fast.passes_gate(fast_scores[candidate.candidate_id])
+            }
+            admitted = self._select_top_k(candidates, fast_scores) & gated
             results: list[CandidateResult] = []
             for candidate in candidates:
                 fast = fast_scores[candidate.candidate_id]
+                if candidate.candidate_id not in gated:
+                    reason = (
+                        f"fast gate: coverage {fast.coverage:.3f} / "
+                        f"brier {fast.brier:.4f}"
+                    )
+                    results.append(
+                        CandidateResult(
+                            candidate=candidate,
+                            fast=fast,
+                            slow=None,
+                            promotion=PromotionDecision(False, None, reason),
+                            feedback=self._feedback(candidate, fast, None, None),
+                        )
+                    )
+                    continue
                 if candidate.candidate_id not in admitted:
                     results.append(
                         CandidateResult(
@@ -95,7 +115,15 @@ class OptimizationLoop:
                     )
                     continue
                 slow = self._validate(candidate, panel, outcomes)
-                promotion = self._promote(candidate, fast, slow)
+                if not self._slow.passes_gate(slow):
+                    promotion = PromotionDecision(
+                        False,
+                        None,
+                        "slow gate: out-of-sample trades or pnl below requirement",
+                    )
+                    self._pool.record_score(candidate.candidate_id, "slow", slow)
+                else:
+                    promotion = self._promote(candidate, fast, slow)
                 results.append(
                     CandidateResult(
                         candidate=candidate,

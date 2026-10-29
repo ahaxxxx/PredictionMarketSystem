@@ -53,8 +53,11 @@ class FastLoopEvaluator:
             )
 
         n_scored = len(scored)
+        # Denominator counts scorable (market, timestamp) pairs, not raw
+        # factor rows: one timestamp may carry several factor rows, and a
+        # fully scored timestamp must read as full coverage.
         n_resolvable_points = sum(
-            len(rows)
+            len({row.ts for row in rows})
             for market_id, rows in panel.items()
             if outcomes.outcome(market_id) is not None
         )
