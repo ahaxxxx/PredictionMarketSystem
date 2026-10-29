@@ -68,7 +68,7 @@ def test_file_input_runs_real_loop_and_records_provenance(tmp_path: Path) -> Non
     assert result["synthetic"] is False
     assert result["data_source"] == "unit_test_fixture"
     assert result["candidate_evaluations"] == 2
-    manifest = json.loads((output / "input_manifest.json").read_text())
+    manifest = json.loads((output / "input_manifest.json").read_text(encoding="utf-8"))
     assert manifest["source_file_sha256"]
     assert manifest["independent_event_groups"] == 2
-    assert "公开归档价格" in (output / "reports/iteration-001.md").read_text()
+    assert "公开归档价格" in (output / "reports/iteration-001.md").read_text(encoding="utf-8")
