@@ -5,12 +5,12 @@
   "real_llm_calls": 0,
   "independent_validation_used": false,
   "final_holdout_used": false,
-  "logs": "Local workspace paths replaced with [repository] / [workspace]; other contents preserved.",
+  "logs": "Local workspace paths replaced with [repository] / [workspace]; trailing whitespace removed; diagnostic content preserved.",
   "files": [
     {
       "file": "dashboard.log",
-      "sha256": "ba7e0c8503c05bab87b6b3b7232539d5a54102348c7d8e7088bc9b9b836765bd",
-      "bytes": 9080
+      "sha256": "ae53bc89c991a20f304681ce4186a7b39dc9492fd2f72281f5a7278466835f8c",
+      "bytes": 8530
     },
     {
       "file": "fallback-summary.json",
@@ -34,8 +34,8 @@
     },
     {
       "file": "imports.log",
-      "sha256": "a7f273b205ddc50425a46ec6f8701afea9771d4590f0268a88acecd6b420478b",
-      "bytes": 1316
+      "sha256": "76466aa09500b947e7b050d54477194dc226acf111ad2acc3d7bcd60c387adb0",
+      "bytes": 1315
     },
     {
       "file": "mypy.log",
