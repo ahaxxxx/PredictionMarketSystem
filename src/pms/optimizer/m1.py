@@ -84,6 +84,37 @@ class M1Proposer:
     def candidates(self) -> tuple[CandidateSpec, ...]:
         return tuple(self._registry.values())
 
+    def register_candidates(self, candidates: Sequence[CandidateSpec]) -> None:
+        """Atomically adopt bounded external proposals before receiving feedback.
+
+        Configuration identity excludes provenance; an external proposal cannot
+        replace an existing configuration or smuggle different composition roles.
+        """
+        incoming: dict[str, CandidateSpec] = {}
+        for candidate in candidates:
+            canonical = self.space.candidate(tuple(s.weight for s in candidate.steps),
+                                             candidate.edge_threshold)
+            if candidate.steps != canonical.steps or candidate.candidate_id != canonical.candidate_id:
+                raise ValueError("candidate differs from canonical search configuration")
+            if candidate.proposer_level not in {"L1", "L2", "L3"}:
+                raise ValueError("unknown proposer level")
+            if candidate.candidate_id in self._registry or candidate.candidate_id in incoming:
+                raise ValueError("candidate configuration already registered")
+            if candidate.parent_candidate_id is not None and candidate.parent_candidate_id not in self._registry:
+                raise ValueError("parent configuration must already be registered")
+            incoming[candidate.candidate_id] = candidate
+        self._registry.update(incoming)
+
+    def observe(self, feedbacks: Sequence[FeedbackPayload]) -> None:
+        """Validate an entire feedback batch before updating evolutionary fitness."""
+        for feedback in feedbacks:
+            if feedback.candidate_id not in self._registry:
+                raise ValueError("feedback has no parent configuration in this proposer")
+            if not all(isfinite(v) for v in (feedback.fast_composite, feedback.fast_brier,
+                                            feedback.direction_accuracy)):
+                raise ValueError("nonfinite feedback")
+        self._scores.update((f.candidate_id, f) for f in feedbacks)
+
     def _neighbors(self, parent: CandidateSpec) -> list[CandidateSpec]:
         weights = tuple(step.weight for step in parent.steps)
         neighbors = []
@@ -107,14 +138,7 @@ class M1Proposer:
     ) -> list[CandidateSpec]:
         if type(n) is not int or n < 0:
             raise ValueError("n must be a nonnegative integer")
-        # Validate the whole feedback batch before changing instance state.
-        for feedback in feedbacks:
-            if feedback.candidate_id not in self._registry:
-                raise ValueError("feedback has no parent configuration in this proposer")
-            if not all(isfinite(v) for v in (feedback.fast_composite, feedback.fast_brier,
-                                            feedback.direction_accuracy)):
-                raise ValueError("nonfinite feedback")
-        self._scores.update((f.candidate_id, f) for f in feedbacks)
+        self.observe(feedbacks)
         generator = self._rng if rng is None else rng
         remaining = {c.candidate_id: c for c in self._pool if c.candidate_id not in self._registry}
         count = min(n, len(remaining))
