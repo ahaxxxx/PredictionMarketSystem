@@ -1,0 +1,38 @@
+{
+  "accepted_guided_edits": 9,
+  "backend": "offline_evidence_reference",
+  "call_budget": 20,
+  "candidate_evaluations": 24,
+  "champion_versions": 2,
+  "cost": null,
+  "data_sha256": "01422bad3304c3a3ad5c39358b8f0b97f9177cf57669fd8cfed821ee5f412ae1",
+  "data_source": "synthetic_development_demo",
+  "final_holdout_used": false,
+  "independent_validation_used": false,
+  "llm_calls": 0,
+  "m3_data_protocol": "legacy_same_development_panel_slices",
+  "m5_feature_replays": 24,
+  "m5_method": "deterministic_evidence_rules",
+  "market_count": 64,
+  "offline_calls": 2,
+  "proposal_backend_calls": 2,
+  "proposal_feature_replays": 20,
+  "proposal_mode": "offline-evidence",
+  "proposer_levels": {
+    "L1": 9,
+    "L2": 6,
+    "L3": 9
+  },
+  "provenance": {
+    "kind": "synthetic_development_demo"
+  },
+  "registered": false,
+  "rejected_guided_edits": 3,
+  "rounds": 3,
+  "scope": "synthetic functional demo; development slices, not final OOS or real PnL",
+  "space_size": 75,
+  "status": "completed",
+  "stop_reason": "round_budget",
+  "synthetic": true,
+  "token_usage": null
+}

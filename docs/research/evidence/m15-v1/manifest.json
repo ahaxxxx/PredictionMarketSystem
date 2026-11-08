@@ -1,0 +1,66 @@
+{
+  "recorded_on": "2026-11-08",
+  "implementation_commit": "64207ed",
+  "purpose": "Functional verification artifacts, not paper effectiveness results",
+  "real_llm_calls": 0,
+  "independent_validation_used": false,
+  "final_holdout_used": false,
+  "logs": "Local workspace paths replaced with [repository] / [workspace]; other contents preserved.",
+  "files": [
+    {
+      "file": "dashboard.log",
+      "sha256": "ba7e0c8503c05bab87b6b3b7232539d5a54102348c7d8e7088bc9b9b836765bd",
+      "bytes": 9080
+    },
+    {
+      "file": "fallback-summary.json",
+      "sha256": "e8153102d7d012b06b13473be70793b6de04d074a5183dee74191360bdeb0db6",
+      "bytes": 1083
+    },
+    {
+      "file": "feedback-to-candidate-example.json",
+      "sha256": "50609a2d5e659c1bc8ba2c7225a91a18b9236e447a17cf15b318ebfb40fc05fb",
+      "bytes": 4731
+    },
+    {
+      "file": "historical-input-manifest.json",
+      "sha256": "7d54281ee71c294c07e98da2af502514b7b54a63a2ab3514d4e312c3ff5c0f69",
+      "bytes": 3141
+    },
+    {
+      "file": "historical-summary.json",
+      "sha256": "79118a9e6ca40ca1cb2722bf9b2f55c217ba9e1eee87ca25eaf0b15e62759818",
+      "bytes": 1628
+    },
+    {
+      "file": "imports.log",
+      "sha256": "a7f273b205ddc50425a46ec6f8701afea9771d4590f0268a88acecd6b420478b",
+      "bytes": 1316
+    },
+    {
+      "file": "mypy.log",
+      "sha256": "b7726dc5056194ef842ba12892f0c62f4c63da21e921041d065bfafef308efe6",
+      "bytes": 45
+    },
+    {
+      "file": "pytest.log",
+      "sha256": "5f0a4182a4d10d33fa55fa2537a34335fedfa468fba87be6962597dc8bc59dc3",
+      "bytes": 3955
+    },
+    {
+      "file": "synthetic-summary.json",
+      "sha256": "a43e21f59166e669d2f0ae56e060fda3213ecbf6b3a2b7b932f4c5c4510119fe",
+      "bytes": 1083
+    },
+    {
+      "file": "teammate-core-unchanged.json",
+      "sha256": "99cf0656abb0b429e248f6409a6acc6c2fff6de8cee5844b0b9bee3671238e6b",
+      "bytes": 776
+    },
+    {
+      "file": "verification.json",
+      "sha256": "4451e484357e467a0f5edfebcca70f12403a7346120605392a1621c69cb20475",
+      "bytes": 510
+    }
+  ]
+}

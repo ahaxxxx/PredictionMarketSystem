@@ -2,6 +2,8 @@
 
 2026-11-08；基于 integration 的 `2d2a072`。本分支为 `feat/optimizer-m15-evidence`。
 
+论文材料与团队核对入口：[已实现机制、验证证据与论文表述](m15-paper-method-and-evidence.md) · [运行和检查证据](evidence/m15-v1/README.md)。
+
 ## 这次完成什么
 
 现在离线优化器可以执行：

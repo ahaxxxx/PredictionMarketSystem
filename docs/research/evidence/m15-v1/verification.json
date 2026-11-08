@@ -1,0 +1,26 @@
+{
+  "date": "2026-11-08",
+  "baseline": "2d2a072fb482588704a74fff54a3eefb2037e5ed",
+  "python_tests": {
+    "passed": 3238,
+    "skipped": 232,
+    "log": "pytest.log"
+  },
+  "mypy": {
+    "checked_files": 535,
+    "log": "mypy.log"
+  },
+  "import_contracts": {
+    "kept": 10,
+    "broken": 0,
+    "log": "imports.log"
+  },
+  "dashboard_tests": {
+    "files": 27,
+    "passed": 66,
+    "log": "dashboard.log"
+  },
+  "real_llm_calls": 0,
+  "independent_validation_used": false,
+  "final_holdout_used": false
+}

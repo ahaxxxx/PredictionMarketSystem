@@ -1,0 +1,30 @@
+
+╔══╗─────────▶╔╗ ╔╗      ╔╗◀───┐
+╚╣╠╝◀─────┐  ╔╝╚╗║║────▶╔╝╚╗   │
+ ║║   ╔══╦══╦╩╗╔╝║║  ╔╦═╩╗╔╝╔═╦══╗
+ ║║╔══╣╔╗║╔╗║╔╣║ ║║ ╔╬╣╔╗║║ ║│║╔═╝
+╔╣╠╣║║║╚╝║╚╝║║║╚╗║╚═╝║║║║║╚╗║═╣║
+╚══╩╩╩╣╔═╩══╩╝╚═╝╚═══╩╩╝╚╩═╩╩═╩╝
+  └──▶║║                    ▲ 
+      ╚╝────────────────────┘
+
+
+---------
+Contracts
+---------
+
+Analyzed 277 files, 1794 dependencies.
+--------------------------------------
+
+Sensor strategy-agnostic: no aggregate import KEPT
+Actuator strategy-agnostic: no aggregate import KEPT
+Sensor + Actuator: no controller import KEPT
+Sensor: no market_selection import KEPT
+Actuator: no market_selection import KEPT
+Market selection: no aggregate import KEPT
+Alerting stays out of strategy and IO adapter rings KEPT
+Kalshi stub helper stays at runtime boundaries KEPT
+Strategy plugins: no actuator, controller, or venue adapter imports KEPT
+MCP proxy only calls the typed HTTP API KEPT
+
+Contracts: 10 kept, 0 broken.

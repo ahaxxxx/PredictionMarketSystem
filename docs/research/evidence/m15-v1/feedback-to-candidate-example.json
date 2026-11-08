@@ -1,0 +1,148 @@
+{
+  "scope": "public historical development replay; offline responder; no model",
+  "evidence": [
+    {
+      "candidate_id": "1845100039bf3429a7b1bfa2c7c67faa84beedecadee974e110cb07ef16991eb",
+      "dataset_id": "PredictionMarketBench-611d66941717-development",
+      "definition": "fraction with abs(rule_delta input) > 1e-12; not attribution",
+      "evidence_id": "26b2e144ce90cfc2b534806ecdb5e9ac443a374772e11b57b8e1d050cf29c9af",
+      "feature_sha256": "f800cd0db1b94ba9ddcb80daadf047c1713d28392b62f5c83d2c09bc60e801ed",
+      "iteration": 1,
+      "metric": "effective_nonzero_rate",
+      "n_points": 32,
+      "scope": "search_development_only",
+      "target": "orderbook_imbalance",
+      "value": 1.0
+    }
+  ],
+  "recommendation": {
+    "diagnostic_id": "8061f5c7e8c6cc3680d102fd7a1822dd36ccc3e3c81e37f49d6acba98d1678c0",
+    "evidence_ids": [
+      "26b2e144ce90cfc2b534806ecdb5e9ac443a374772e11b57b8e1d050cf29c9af"
+    ],
+    "falsification": "新候选若无行为变化或开发质量恶化，则不支持该修改。",
+    "operation": "explore",
+    "parent_candidate_id": "1845100039bf3429a7b1bfa2c7c67faa84beedecadee974e110cb07ef16991eb",
+    "recommendation_id": "970c536ecc1a2e1e38d256ca79f4c993d85cb7df4350e527c097c9040fcc5744",
+    "target": "orderbook_imbalance"
+  },
+  "accepted_edit": {
+    "candidate_id": "ade7dac891a3d25437fcc070938f8529444f1d3f12a69227e33d98930cb99c31",
+    "edit": {
+      "evidence_ids": [
+        "26b2e144ce90cfc2b534806ecdb5e9ac443a374772e11b57b8e1d050cf29c9af"
+      ],
+      "expected_direction": "decrease",
+      "hypothesis": "按所引用的开发证据比较一个相邻参数；预期质量改善尚未验证。",
+      "parent_candidate_id": "1845100039bf3429a7b1bfa2c7c67faa84beedecadee974e110cb07ef16991eb",
+      "recommendation_id": "970c536ecc1a2e1e38d256ca79f4c993d85cb7df4350e527c097c9040fcc5744",
+      "target": "orderbook_imbalance",
+      "value": -0.25
+    },
+    "iteration": 2,
+    "proposal_index": 0,
+    "status": "accepted"
+  },
+  "parent": {
+    "candidate_id": "1845100039bf3429a7b1bfa2c7c67faa84beedecadee974e110cb07ef16991eb",
+    "edge_threshold": 0.02,
+    "meta": {},
+    "parent_candidate_id": null,
+    "proposer_level": "L1",
+    "steps": [
+      {
+        "allow_neutral_fallback": false,
+        "enabled": true,
+        "factor_id": "orderbook_imbalance",
+        "freshness_sla_s": null,
+        "param": "",
+        "required": true,
+        "role": "rule_delta",
+        "threshold": null,
+        "weight": 0.0
+      },
+      {
+        "allow_neutral_fallback": false,
+        "enabled": true,
+        "factor_id": "favorite_longshot_bias",
+        "freshness_sla_s": null,
+        "param": "",
+        "required": true,
+        "role": "rule_delta",
+        "threshold": null,
+        "weight": 0.0
+      }
+    ]
+  },
+  "child": {
+    "candidate_id": "ade7dac891a3d25437fcc070938f8529444f1d3f12a69227e33d98930cb99c31",
+    "edge_threshold": 0.02,
+    "meta": {},
+    "parent_candidate_id": "1845100039bf3429a7b1bfa2c7c67faa84beedecadee974e110cb07ef16991eb",
+    "proposer_level": "L3",
+    "steps": [
+      {
+        "allow_neutral_fallback": false,
+        "enabled": true,
+        "factor_id": "orderbook_imbalance",
+        "freshness_sla_s": null,
+        "param": "",
+        "required": true,
+        "role": "rule_delta",
+        "threshold": null,
+        "weight": -0.25
+      },
+      {
+        "allow_neutral_fallback": false,
+        "enabled": true,
+        "factor_id": "favorite_longshot_bias",
+        "freshness_sla_s": null,
+        "param": "",
+        "required": true,
+        "role": "rule_delta",
+        "threshold": null,
+        "weight": 0.0
+      }
+    ]
+  },
+  "parent_evaluation": {
+    "fast": {
+      "brier": 0.25196484375,
+      "coverage": 1.0,
+      "direction_accuracy": 0.28125,
+      "duration_s": 0.00039224978536367416,
+      "ic": 0.0,
+      "icir": 0.0,
+      "log_loss": 0.6962109818464426,
+      "n_markets": 2,
+      "n_points": 32,
+      "rank_ic": 0.0
+    },
+    "promotion": {
+      "champion_version": null,
+      "promoted": false,
+      "reason": "fast gate: coverage 1.000 / brier 0.2520"
+    },
+    "scope": "development_only"
+  },
+  "child_evaluation": {
+    "fast": {
+      "brier": 0.24095573239497375,
+      "coverage": 1.0,
+      "direction_accuracy": 0.625,
+      "duration_s": 0.0003483342006802559,
+      "ic": 0.40652228084134767,
+      "icir": -0.47077415738363115,
+      "log_loss": 0.673371988596654,
+      "n_markets": 2,
+      "n_points": 32,
+      "rank_ic": 0.3628045317352004
+    },
+    "promotion": {
+      "champion_version": null,
+      "promoted": false,
+      "reason": "composite 2.0225 <= incumbent 2.4097"
+    },
+    "scope": "development_only"
+  }
+}
