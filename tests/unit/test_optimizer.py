@@ -16,6 +16,7 @@ from pms.optimizer import (
     replay_composition,
 )
 from pms.research.cache import FactorPanel
+from pms.optimizer.schemas import FastScore, SlowScore
 
 BASE_TS = datetime(2026, 1, 1, 0, 0, 0)
 
@@ -191,7 +192,7 @@ def test_slow_loop_no_trades_when_edge_below_threshold() -> None:
 # ---- M4 champion pool ---------------------------------------------------------
 
 
-def _good_fast_slow():
+def _good_fast_slow() -> tuple[FastScore, SlowScore]:
     fast = FastLoopEvaluator().evaluate(_candidate("c-1"), _oracle_panel(), OUTCOMES)
     slow = SlowLoopValidator(fee_bps=0.0, slippage_bps=0.0).validate(
         _candidate("c-1"), _oracle_panel(), OUTCOMES
@@ -221,8 +222,9 @@ def test_champion_pool_rejects_weaker_challenger() -> None:
         decision = pool.promote(_candidate("c-2"), fast, slow)
         assert not decision.promoted
         assert "incumbent" in decision.reason
-        assert pool.current_champion() is not None
-        assert pool.current_champion().version == 1
+        champion = pool.current_champion()
+        assert champion is not None
+        assert champion.version == 1
         assert len(pool.ledger()) == 1
 
 
